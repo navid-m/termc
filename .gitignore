@@ -1,0 +1,7 @@
+*.exe
+.zig-cache
+.vscode
+*.pdb
+*.obj
+*.lib
+zig-out

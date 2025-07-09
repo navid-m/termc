@@ -43,13 +43,17 @@ fn ctrlHandlerWindows(ctrl_type: DWORD) callconv(.C) BOOL {
     return TRUE;
 }
 
+fn ctrlHandlerPosix(_: c_int) callconv(.C) void {
+    std.debug.print("Captured it.", .{});
+}
+
 test {
     std.debug.print("Waiting for Ctrl+C...\n", .{});
 
     if (builtin.os.tag == .windows) {
         try setupWindowsHandler(ctrlHandlerWindows);
     } else {
-        try setupUnixHandler();
+        try setupUnixHandler(ctrlHandlerPosix);
     }
 
     while (true) {

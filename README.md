@@ -1,5 +1,11 @@
 Simple package because this isn't in the stdlib for some idiotic reason.
 
+Install:
+
+```sh
+zig fetch --save "git+https://github.com/navid-m/termc"
+```
+
 Usage:
 
 ```zig

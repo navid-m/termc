@@ -17,12 +17,12 @@ extern "kernel32" fn SetConsoleCtrlHandler(
 ) BOOL;
 
 /// Set up control key handler via Windows API
-pub fn setupWindowsHandler(handler: CtrlHandlerFn) !void {
+pub fn setupWindowsCtrlCHandler(handler: CtrlHandlerFn) !void {
     if (SetConsoleCtrlHandler(handler, TRUE) == FALSE) {}
 }
 
 /// Set up control key handler using available POSIX APIs
-pub fn setupUnixHandler(handler: SignalHandlerFn) !void {
+pub fn setupUnixCtrlCHandler(handler: SignalHandlerFn) !void {
     if (builtin.os.tag == .linux) {
         var act: os.linux.Sigaction = std.mem.zeroes(os.linux.Sigaction);
         act.handler = .{ .handler = handler };
@@ -111,9 +111,9 @@ test {
     try print("Waiting for Ctrl+C...");
 
     if (builtin.os.tag == .windows) {
-        try setupWindowsHandler(ctrlHandlerWindows);
+        try setupWindowsCtrlCHandler(ctrlHandlerWindows);
     } else {
-        try setupUnixHandler(ctrlHandlerPosix);
+        try setupUnixCtrlCHandler(ctrlHandlerPosix);
     }
 
     while (true) {

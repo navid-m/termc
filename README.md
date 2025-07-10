@@ -9,6 +9,8 @@ zig fetch --save "git+https://github.com/navid-m/termc"
 Usage:
 
 ```zig
+const termc = @import("termc");
+
 fn ctrlHandlerWindows(ctrl_type: DWORD) callconv(.C) BOOL {
     switch (ctrl_type) {
         0 => {
@@ -27,9 +29,9 @@ test {
     std.debug.print("Waiting for Ctrl+C...\n", .{});
 
     if (builtin.os.tag == .windows) {
-        try setupWindowsHandler(ctrlHandlerWindows);
+        try termc.setupWindowsCtrlCHandler(ctrlHandlerWindows);
     } else {
-        try setupUnixHandler(ctrlHandlerPosix);
+        try termc.setupUnixCtrlCHandler(ctrlHandlerPosix);
     }
 
     while (true) {

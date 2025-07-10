@@ -117,6 +117,6 @@ test {
     }
 
     while (true) {
-        std.time.sleep(1_000_000_000);
+        std.Thread.sleep(1_000_000_000);
     }
 }

@@ -61,8 +61,8 @@ pub fn print(text: []const u8) !void {
 /// Format a string into a buffer and return the slice
 ///
 /// Requires allocator
-pub fn sprintf(allocator: std.mem.Allocator, comptime fmt: []const u8, args: anytype) ![]u8 {
-    const buf = try allocator.alloc(u8, 2048);
+pub fn sprintf(allocator: std.mem.Allocator, comptime fmt: []const u8, args: anytype, size: usize) ![]u8 {
+    const buf = try allocator.alloc(u8, size);
     const result = std.fmt.bufPrint(buf, fmt, args) catch |err| {
         allocator.free(buf);
         return err;
